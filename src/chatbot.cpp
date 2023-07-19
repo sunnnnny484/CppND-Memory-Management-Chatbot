@@ -44,6 +44,57 @@ ChatBot::~ChatBot()
 
 //// STUDENT CODE
 ////
+ChatBot::ChatBot(const ChatBot& other)
+{
+    _image = new wxBitmap(*other._image);
+    _currentNode = other._currentNode;
+    _rootNode = other._rootNode;
+    _chatLogic = other._chatLogic;
+}
+
+ChatBot& ChatBot::operator=(const ChatBot& other)
+{
+    if(this != &other)
+    {
+        _image = new wxBitmap(*other._image);
+        _currentNode = other._currentNode;
+        _rootNode = other._rootNode;
+        _chatLogic = other._chatLogic;
+    }
+
+    return *this;
+}
+
+ChatBot::ChatBot(ChatBot&& other)
+{
+    _image = other._image;
+    _currentNode = other._currentNode;
+    _rootNode = other._rootNode;
+    _chatLogic = other._chatLogic;
+
+    other._image = nullptr;
+    other._currentNode = nullptr;
+    other._rootNode = nullptr;
+    other._chatLogic = nullptr;
+}
+
+ChatBot& ChatBot::operator=(ChatBot&& other)
+{
+    if(this != &other)
+    {
+        _image = other._image;
+        _currentNode = other._currentNode;
+        _rootNode = other._rootNode;
+        _chatLogic = other._chatLogic;
+
+        other._image = nullptr;
+        other._currentNode = nullptr;
+        other._rootNode = nullptr;
+        other._chatLogic = nullptr;
+    }
+
+    return *this;
+}
 
 ////
 //// EOF STUDENT CODE
