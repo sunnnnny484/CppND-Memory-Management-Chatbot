@@ -41,10 +41,10 @@ ChatLogic::~ChatLogic()
     // }
 
     // delete all edges
-    for (auto it = std::begin(_edges); it != std::end(_edges); ++it)
-    {
-        delete *it;
-    }
+    // for (auto it = std::begin(_edges); it != std::end(_edges); ++it)
+    // {
+    //     delete *it;
+    // }
 
     ////
     //// EOF STUDENT CODE
@@ -167,17 +167,19 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
                                                           { return node->GetID() == std::stoi(childToken->second); });
 
                             // create new edge
-                            GraphEdge *edge = new GraphEdge(id);
+                            std::shared_ptr<GraphEdge> edge = std::make_shared<GraphEdge>(id);
                             edge->SetChildNode((*childNode).get());
                             edge->SetParentNode((*parentNode).get());
-                            _edges.push_back(edge);
+                            // _edges.push_back(edge);
 
                             // find all keywords for current node
                             AddAllTokensToElement("KEYWORD", tokens, *edge);
 
                             // store reference in child node and parent node
-                            (*childNode)->AddEdgeToParentNode(edge);
-                            (*parentNode)->AddEdgeToChildNode(edge);
+                            std::shared_ptr<GraphEdge> sharedEdge = std::move(edge);
+                            (*childNode)->AddEdgeToParentNode(sharedEdge);
+                            std::unique_ptr<GraphEdge> uniqueEdge = std::move(sharedEdge);
+                            (*parentNode)->AddEdgeToChildNode(std::move(uniqueEdge));
                         }
 
                         ////
