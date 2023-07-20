@@ -67,6 +67,7 @@ ChatBot& ChatBot::operator=(const ChatBot& other)
 
 ChatBot::ChatBot(ChatBot&& other)
 {
+    std::cout << "ChatBot Move Constructor\n";
     _image = other._image;
     _currentNode = other._currentNode;
     _rootNode = other._rootNode;
@@ -80,6 +81,7 @@ ChatBot::ChatBot(ChatBot&& other)
 
 ChatBot& ChatBot::operator=(ChatBot&& other)
 {
+    std::cout << "ChatBot Move Assignment Operator\n";
     if(this != &other)
     {
         _image = other._image;
