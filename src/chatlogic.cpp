@@ -202,9 +202,10 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
 
     //// STUDENT CODE
     ////
-    
+
     // Create ChatBot instance
-    std::shared_ptr<ChatBot> bot = std::make_shared<ChatBot>("../images/chatbot.png");
+    ChatBot bot("../images/chatbot.png");
+    bot.SetChatLogicHandle(this);
     // identify root node
     GraphNode *rootNode = nullptr;
     for (auto it = std::begin(_nodes); it != std::end(_nodes); ++it)
@@ -225,8 +226,9 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
     }
 
     // add chatbot to graph root node
-    _chatBot->SetRootNode(rootNode);
-    rootNode->MoveChatbotHere(_chatBot);
+    bot.SetRootNode(rootNode);
+    _chatBot = &bot;
+    rootNode->MoveChatbotHere(std::move(bot));
 
     ////
     //// EOF STUDENT CODE
